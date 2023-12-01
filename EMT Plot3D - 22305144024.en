@@ -1,0 +1,1042 @@
+﻿% Mutiara Hati Rezanalesya
+%% Matematika B 2022
+%% 22305144024
+%% ---
+% 
+% * Menggambar Plot 3D dengan EMT
+% 
+% Ini adalah pengantar untuk plot 3D dalam Euler. Kita memerlukan plot
+% 3D untuk memvisualisasikan sebuah fungsi dari dua variabel.
+% 
+% Euler menggambar fungsi-fungsi seperti itu menggunakan algoritma
+% pengurutan untuk menyembunyikan bagian-bagian di latar belakang.
+% Secara umum, Euler menggunakan proyeksi pusat. Defaultnya adalah dari
+% kuadran positif x-y menuju titik asal x=y=z=0, tetapi sudut=0°
+% menghadap ke arah sumbu y. Sudut pandangan dan tinggi dapat diubah.
+% 
+% Euler dapat membuat plot:
+% 
+% - permukaan dengan bayangan dan garis level atau rentang level,
+%% - awan titik,
+%% - kurva parametrik,
+%% - permukaan implisit.
+% 
+% Plot 3D dari sebuah fungsi menggunakan plot3d. Cara termudah adalah
+% dengan memplot ekspresi dalam x dan y. Parameter r mengatur rentang
+% plot di sekitar (0,0).
+>aspect(1.5); plot3d("x^2+sin(y)",-5,5,0,6*pi):
+ %image% EMT Plot3D - 22305144024-001.png
+>plot3d("x^2+x*sin(y)",-5,5,0,6*pi):
+ %image% EMT Plot3D - 22305144024-002.png
+% Silakan lakukan modifikasi agar gambar "talang bergelombang" tersebut tidak lurus melainkan melengkung/melingkar, baik
+% melingkar secara mendatar maupun melingkar turun/naik (seperti papan peluncur pada kolam renang. Temukan rumusnya.
+>
+% * Fungsi Dua Variabel
+% 
+% Untuk grafik dari sebuah fungsi, gunakan
+% 
+% - ekspresi sederhana dalam x dan y,
+%% - nama fungsi dua variabel,
+%% - atau matriks data.
+% 
+% Pengaturan default adalah tampilan grid berwarna dengan grid yang
+% berbeda di kedua sisi. Perlu diingat bahwa jumlah interval grid
+% default adalah 10, tetapi plot menggunakan jumlah default 40x40
+% persegi untuk membangun permukaan. Ini dapat diubah.
+% 
+% - n=40, n=[40,40]: jumlah garis grid dalam setiap arah
+%% - grid=10, grid=[10,10]: jumlah garis grid dalam setiap arah.
+% 
+% Kami menggunakan n=40 dan grid=10 sebagai default.
+>plot3d("x^2+y^2"):
+ %image% EMT Plot3D - 22305144024-003.png
+% Interaksi pengguna dimungkinkan dengan parameter >user. Pengguna dapat
+% menekan tombol-tombol berikut.
+% 
+% - kiri, kanan, atas, bawah: mengubah sudut pandang
+%% - +, -: memperbesar atau memperkecil
+%% - a: menghasilkan anaglif (lihat di bawah)
+%% - l: mengaktifkan atau menonaktifkan sumber cahaya (lihat di bawah)
+%% - spasi: mengembalikan ke pengaturan awal
+%% - enter: mengakhiri interaksi
+>plot3d("exp(-x^2+y^2)",>user, ...
+>  title="Turn with the vector keys (press return to finish)"):
+ %image% EMT Plot3D - 22305144024-004.png
+% Rentang plot untuk fungsi dapat ditentukan dengan
+% 
+% - a, b: rentang x
+%% - c, d: rentang y
+%% - r: kotak simetris di sekitar (0,0).
+%% - n: jumlah subinterval untuk plot.
+% 
+% Ada beberapa parameter untuk menyesuaikan fungsi atau mengubah
+% tampilan grafik.
+% 
+% fscale: mengubah skala nilai-nilai fungsi (default adalah <fscale).
+%% skala: angka atau vektor 1x2 untuk mengubah skala ke arah x- dan y.
+%% frame: jenis bingkai (default 1).
+>plot3d("exp(-(x^2+y^2)/5)",r=10,n=80,fscale=4,scale=1.2,frame=3,>user):
+ %image% EMT Plot3D - 22305144024-005.png
+% Tampilan dapat diubah dengan berbagai cara.
+% 
+% - jarak: jarak pandangan ke plot.
+%% - zoom: nilai zoom.
+%% - sudut: sudut terhadap sumbu y negatif dalam radian.
+%% - tinggi: tinggi tampilan dalam radian.
+% 
+% Nilai default dapat diperiksa atau diubah dengan fungsi view(). Fungsi
+% ini mengembalikan parameter dalam urutan di atas.
+>view
+[5,  2.6,  2,  0.4]
+% Jarak yang lebih dekat memerlukan zoom yang lebih sedikit. Efeknya
+% lebih mirip lensa sudut lebar.
+% 
+% Pada contoh berikutnya, sudut=0 dan tinggi=0 dilihat dari sumbu y
+% negatif. Label sumbu untuk y disembunyikan dalam kasus ini.
+>plot3d("x^2+y",distance=3,zoom=1,angle=pi/2,height=0):
+ %image% EMT Plot3D - 22305144024-006.png
+% Plot selalu terlihat ke pusat kubus plot. Anda dapat memindahkan
+% pusatnya dengan parameter pusat.
+>plot3d("x^4+y^2",a=0,b=1,c=-1,d=1,angle=-20°,height=20°, ...
+>  center=[0.4,0,0],zoom=5):
+ %image% EMT Plot3D - 22305144024-007.png
+% Plot tersebut diperkecil agar sesuai dengan kubus satuan saat dilihat.
+% Jadi, tidak perlu mengubah jarak atau zoom tergantung pada ukuran
+% plot. Label-labelnya tetap mengacu pada ukuran sebenarnya.
+% 
+% Jika Anda mematikan fitur ini dengan scale=false, Anda perlu
+% memastikan bahwa plot tetap muat dalam jendela plotting, dengan
+% mengubah jarak pandang atau zoom, dan menggeser pusatnya.
+>plot3d("5*exp(-x^2-y^2)",r=2,<fscale,<scale,distance=13,height=50°, ...
+>  center=[0,0,-2],frame=3):
+ %image% EMT Plot3D - 22305144024-008.png
+% Grafik polar juga tersedia. Parameter polar=true menggambar grafik
+% polar. Fungsi tetap harus menjadi fungsi dari x dan y. Parameter
+% "fscale" mengubah skala fungsi dengan skala sendiri. Jika tidak,
+% fungsi akan diubah skala agar sesuai dalam sebuah kubus.
+>plot3d("1/(x^2+y^2+1)",r=5,>polar, ...
+>fscale=2,>hue,n=100,zoom=4,>contour,color=blue):
+ %image% EMT Plot3D - 22305144024-009.png
+>function f(r) := exp(-r/2)*cos(r); ...
+>plot3d("f(x^2+y^2)",>polar,scale=[1,1,0.4],r=pi,frame=3,zoom=4):
+ %image% EMT Plot3D - 22305144024-010.png
+% Parameter "rotate" memutar suatu fungsi dalam sumbu x sekitar sumbu x.
+% 
+% - rotate=1: Menggunakan sumbu x
+%% - rotate=2: Menggunakan sumbu z
+>plot3d("x^2+1",a=-1,b=1,rotate=true,grid=5):
+ %image% EMT Plot3D - 22305144024-011.png
+>plot3d("x^2+1",a=-1,b=1,rotate=2,grid=5):
+ %image% EMT Plot3D - 22305144024-012.png
+>plot3d("sqrt(25-x^2)",a=0,b=5,rotate=1):
+ %image% EMT Plot3D - 22305144024-013.png
+>
+>plot3d("x*sin(x)",a=0,b=6pi,rotate=2):
+ %image% EMT Plot3D - 22305144024-014.png
+% Berikut adalah sebuah plot dengan tiga fungsi.
+>plot3d("x","x^2+y^2","y",r=2,zoom=3.5,frame=3):
+ %image% EMT Plot3D - 22305144024-015.png
+% * Plot Kontur
+% 
+% Untuk plot ini, Euler menambahkan garis-garis kisi. Sebagai gantinya,
+% kita dapat menggunakan garis level dan satu warna atau spektrum warna.
+% Euler dapat menggambar tinggi fungsi pada plot dengan shading. Dalam
+% semua plot 3D, Euler dapat menghasilkan anaglyph merah/cyan.
+% 
+% - >hue: Mengaktifkan shading ringan daripada kawat.
+%% - >contour: Melakukan plot garis kontur otomatis pada plot.
+%% - level=... (atau levels): Sebuah vektor nilai untuk garis kontur.
+% 
+% Defaultnya adalah level="auto", yang menghitung beberapa garis level
+% secara otomatis. Seperti yang Anda lihat dalam plot, level sebenarnya
+% adalah rentang level.
+% 
+% Gaya default dapat diubah. Untuk plot kontur berikutnya, kami
+% menggunakan kisi yang lebih halus dengan 100x100 titik, mengubah skala
+% fungsi dan plot, dan menggunakan sudut pandang yang berbeda.
+>plot3d("exp(-x^2-y^2)",r=2,n=100,level="thin", ...
+> >contour,>spectral,fscale=1,scale=1.1,angle=45°,height=20°):
+ %image% EMT Plot3D - 22305144024-016.png
+>plot3d("exp(x*y)",angle=100°,>contour,color=green):
+ %image% EMT Plot3D - 22305144024-017.png
+% Pengaturan bayangan bawaan menggunakan warna abu-abu. Namun, juga
+% tersedia berbagai macam warna dalam spektrum.
+% 
+% - >spektral: Menggunakan skema spektral bawaan
+%% - warna=...: Menggunakan warna khusus atau skema spektral
+% 
+% Untuk plot berikut, kita menggunakan skema spektral bawaan dan
+% meningkatkan jumlah titik untuk mendapatkan tampilan yang sangat
+% halus.
+>plot3d("x^2+y^2",>spectral,>contour,n=100):
+ %image% EMT Plot3D - 22305144024-018.png
+% Daripada garis level otomatis, kita juga dapat mengatur nilai-nilai
+% dari garis level. Hal ini akan menghasilkan garis level yang tipis
+% daripada rentang level.
+>plot3d("x^2-y^2",0,5,0,5,level=-1:0.1:1,color=redgreen):
+ %image% EMT Plot3D - 22305144024-019.png
+% Dalam plot berikut, kita menggunakan dua rentang level yang sangat
+% luas dari -0.1 hingga 1, dan dari 0.9 hingga 1. Ini dimasukkan sebagai
+% matriks dengan batas level sebagai kolom.
+% 
+% Selain itu, kita menimbulkan grid dengan 10 interval di setiap arah.
+>plot3d("x^2+y^3",level=[-0.1,0.9;0,1], ...
+>  >spectral,angle=30°,grid=10,contourcolor=gray):
+ %image% EMT Plot3D - 22305144024-020.png
+% Dalam contoh berikut, kita menggambar himpunan, di mana
+% 
+% latex: f(x, y) = x^y - y^x = 0
+% %image% EMT Plot3D - 22305144024-021.png
+% // latex: f(x, y) = x^y - y^x = 0
+% 
+% Kita menggunakan satu garis tipis untuk garis level.
+>plot3d("x^y-y^x",level=0,a=0,b=6,c=0,d=6,contourcolor=red,n=100):
+ %image% EMT Plot3D - 22305144024-022.png
+% Mungkin untuk menampilkan sebuah bidang kontur di bawah plot. Warna
+% dan jarak ke plot dapat ditentukan.
+>plot3d("x^2+y^4",>cp,cpcolor=green,cpdelta=0.2):
+ %image% EMT Plot3D - 22305144024-023.png
+% Berikut beberapa gaya tambahan. Kami selalu mematikan bingkai (frame),
+% dan menggunakan berbagai skema warna untuk plot dan grid.
+>figure(2,2); ...
+>expr="y^3-x^2"; ...
+>figure(1);  ...
+>  plot3d(expr,<frame,>cp,cpcolor=spectral); ...
+>figure(2);  ...
+>  plot3d(expr,<frame,>spectral,grid=10,cp=2); ...
+>figure(3);  ...
+>  plot3d(expr,<frame,>contour,color=gray,nc=5,cp=3,cpcolor=greenred); ...
+>figure(4);  ...
+>  plot3d(expr,<frame,>hue,grid=10,>transparent,>cp,cpcolor=gray); ...
+>figure(0):
+ %image% EMT Plot3D - 22305144024-024.png
+% Ada beberapa skema spektral lain, yang diberi nomor dari 1 hingga 9.
+% Tetapi Anda juga dapat menggunakan warna=nilai, di mana nilai
+% 
+% - spektral: untuk rentang dari biru hingga merah
+%% - putih: untuk rentang yang lebih samar
+%% - kuningbiru, hijauungu, birukuning, merahhijau
+%% - birukuning, unguhijau, kuningbiru, hijaumerah
+>figure(3,3); ...
+>for i=1:9;  ...
+>  figure(i); plot3d("x^2+y^2",spectral=i,>contour,>cp,<frame,zoom=4);  ...
+>end; ...
+>figure(0):
+ %image% EMT Plot3D - 22305144024-025.png
+% Sumber cahaya dapat diubah dengan tombol "l" dan tombol kursor selama
+% interaksi pengguna. Ini juga dapat diatur dengan parameter.
+% 
+% - light: arah cahaya
+%% - amb: cahaya ambien antara 0 dan 1
+% 
+% Perhatikan bahwa program ini tidak membedakan sisi plot. Tidak ada
+% bayangan. Untuk itu, Anda akan memerlukan Povray.
+>plot3d("-x^2-y^2", ...
+>  hue=true,light=[0,1,1],amb=0,user=true, ...
+>  title="Press l and cursor keys (return to exit)"):
+ %image% EMT Plot3D - 22305144024-026.png
+% Parameter warna mengubah warna permukaan. Warna dari garis level juga
+% dapat diubah.
+>plot3d("-x^2-y^2",color=rgb(0.2,0.2,0),hue=true,frame=false, ...
+>  zoom=3,contourcolor=red,level=-2:0.1:1,dl=0.01):
+ %image% EMT Plot3D - 22305144024-027.png
+% Warna 0 memberikan efek pelangi yang istimewa.
+>plot3d("x^2/(x^2+y^2+1)",color=0,hue=true,grid=10):
+ %image% EMT Plot3D - 22305144024-028.png
+% Permukaannya juga bisa transparan.
+>plot3d("x^2+y^2",>transparent,grid=10,wirecolor=red):
+ %image% EMT Plot3D - 22305144024-029.png
+% * Plot Implisit
+% 
+% Ada juga plot implisit dalam tiga dimensi. Euler menghasilkan potongan
+% melalui objek-objek tersebut. Fitur dari plot3d mencakup plot
+% implisit. Plot ini menampilkan himpunan nol dari suatu fungsi dalam
+% tiga variabel.
+%% Solusi dari
+% 
+% latex: f(x,y,z) = 0
+% %image% EMT Plot3D - 22305144024-030.png
+% // latex: f(x,y,z) = 0
+% 
+% dapat divisualisasikan dalam potongan sejajar dengan bidang x-y,
+% bidang x-z, dan bidang y-z.
+% 
+% - implicit=1: potongan sejajar dengan bidang y-z
+%% - implicit=2: potongan sejajar dengan bidang x-z
+%% - implicit=4: potongan sejajar dengan bidang x-y
+% 
+% Tambahkan nilai-nilai ini, jika Anda suka. Dalam contoh ini, kita
+% memplot
+% 
+% latex: M = \{ (x,y,z) : x^2+y^3+zy=1 \}
+% %image% EMT Plot3D - 22305144024-031.png
+% // latex: M = \{ (x,y,z) : x^2+y^3+zy=1 \}
+>plot3d("x^2+y^3+z*y-1",r=5,implicit=3):
+ %image% EMT Plot3D - 22305144024-032.png
+>c=1; d=1;
+>plot3d("((x^2+y^2-c^2)^2+(z^2-1)^2)*((y^2+z^2-c^2)^2+(x^2-1)^2)*((z^2+x^2-c^2)^2+(y^2-1)^2)-d",r=2,<frame,>implicit,>user): 
+ %image% EMT Plot3D - 22305144024-033.png
+>
+>plot3d("x^2+y^2+4*x*z+z^3",>implicit,r=2,zoom=2.5):
+ %image% EMT Plot3D - 22305144024-034.png
+% * Plotting Data 3D
+% 
+% Sama seperti plot2d, plot3d menerima data. Untuk objek 3D, Anda perlu
+% menyediakan matriks nilai x-, y-, dan z-, atau tiga fungsi atau
+% ekspresi fx(x,y), fy(x,y), fz(x,y).
+% 
+% latex: \gamma(t,s) = (x(t,s),y(t,s),z(t,s))
+% %image% EMT Plot3D - 22305144024-035.png
+% // latex: \gamma(t,s) = (x(t,s),y(t,s),z(t,s))
+% 
+% Karena x, y, z adalah matriks, kami mengasumsikan bahwa (t,s) berjalan
+% melalui grid persegi. Sebagai hasilnya, Anda dapat membuat
+% gambar-gambar segi empat di dalam ruang.
+% 
+% Anda dapat menggunakan bahasa matriks Euler untuk menghasilkan
+% koordinat dengan efektif.
+% 
+% Pada contoh berikut, kami menggunakan vektor nilai t dan vektor kolom
+% nilai s untuk memparametrisasi permukaan bola. Dalam gambaran ini,
+% kami dapat menandai wilayah-wilayah, dalam kasus kami adalah wilayah
+% kutub.
+>t=linspace(0,2pi,180); s=linspace(-pi/2,pi/2,90)'; ...
+>x=cos(s)*cos(t); y=cos(s)*sin(t); z=sin(s); ...
+>plot3d(x,y,z,>hue, ...
+>color=blue,<frame,grid=[10,20], ...
+>values=s,contourcolor=red,level=[90°-24°;90°-22°], ...
+>scale=1.4,height=50°):
+ %image% EMT Plot3D - 22305144024-036.png
+% Berikut ini adalah contoh, yang merupakan grafik dari sebuah fungsi.
+>t=-1:0.1:1; s=(-1:0.1:1)'; plot3d(t,s,t*s,grid=10):
+ %image% EMT Plot3D - 22305144024-037.png
+% Namun, kita dapat membuat berbagai jenis permukaan. Berikut ini adalah
+% permukaan yang sama dalam bentuk fungsi
+% 
+% latex: x = y \, z
+% %image% EMT Plot3D - 22305144024-038.png
+% // latex: x = y \, z
+>plot3d(t*s,t,s,angle=180°,grid=10):
+ %image% EMT Plot3D - 22305144024-039.png
+% Dengan lebih banyak usaha, kita bisa menghasilkan banyak permukaan.
+% 
+% Pada contoh berikut, kita membuat tampilan berbayang dari bola yang
+% terdistorsi. Koordinat biasa untuk bola tersebut adalah
+% 
+% latex: \gamma(t,s) = (\cos(t)\cos(s),\sin(t)\sin(s),\cos(s))
+% %image% EMT Plot3D - 22305144024-040.png
+% // latex: \gamma(t,s) = (\cos(t)\cos(s),\sin(t)\sin(s),\cos(s))
+% 
+% dengan
+% 
+% latex: 0 \le t \le 2\pi, \quad \frac{-\pi}{2} \le s \le \frac{\pi}{2}.
+% %image% EMT Plot3D - 22305144024-041.png
+% // latex: 0 \le t \le 2\pi, \quad \frac{-\pi}{2} \le s \le \frac{\pi}{2}.
+% 
+% Kita merubahnya dengan faktor
+% 
+% latex: d(t,s) = \frac{\cos(4t)+\cos(8s)}{4}.
+% %image% EMT Plot3D - 22305144024-042.png
+% // latex: d(t,s) = \frac{\cos(4t)+\cos(8s)}{4}.
+>t=linspace(0,2pi,320); s=linspace(-pi/2,pi/2,160)'; ...
+>d=1+0.2*(cos(4*t)+cos(8*s)); ...
+>plot3d(cos(t)*cos(s)*d,sin(t)*cos(s)*d,sin(s)*d,hue=1, ...
+>  light=[1,0,1],frame=0,zoom=5):
+ %image% EMT Plot3D - 22305144024-043.png
+% Tentu saja, awan titik juga memungkinkan. Untuk memplot data titik di
+% dalam ruang, kita memerlukan tiga vektor untuk koordinat titik-titik
+% tersebut.
+% 
+% Gaya-gaya ini sama seperti dalam plot2d dengan points=true;
+>n=500;  ...
+>  plot3d(normal(1,n),normal(1,n),normal(1,n),points=true,style="."):
+ %image% EMT Plot3D - 22305144024-044.png
+% Hal ini juga mungkin untuk menggambar kurva dalam 3D. Dalam hal ini,
+% lebih mudah untuk menghitung titik-titik kurva terlebih dahulu. Untuk
+% kurva dalam bidang, kami menggunakan urutan koordinat dan parameter
+% kawat=true.
+>t=linspace(0,8pi,500); ...
+>plot3d(sin(t),cos(t),t/10,>wire,zoom=3):
+ %image% EMT Plot3D - 22305144024-045.png
+>t=linspace(0,4pi,1000); plot3d(cos(t),sin(t),t/2pi,>wire, ...
+>linewidth=3,wirecolor=blue):
+ %image% EMT Plot3D - 22305144024-046.png
+>X=cumsum(normal(3,100)); ...
+> plot3d(X[1],X[2],X[3],>anaglyph,>wire):
+ %image% EMT Plot3D - 22305144024-047.png
+% EMT juga dapat membuat plot dalam mode anaglif. Untuk melihat plot
+% seperti itu, Anda memerlukan kacamata merah/cyan.
+> plot3d("x^2+y^3",>anaglyph,>contour,angle=30°):
+ %image% EMT Plot3D - 22305144024-048.png
+% Seringkali, skema warna spektral digunakan untuk plot. Ini menekankan
+% tinggi dari fungsi tersebut.
+>plot3d("x^2*y^3-y",>spectral,>contour,zoom=3.2):
+ %image% EMT Plot3D - 22305144024-049.png
+% Euler juga dapat menggambar permukaan yang diberparameterisasi, ketika
+% parameter-parameter tersebut adalah nilai-nilai x, y, dan z dari
+% sebuah gambar grid persegi di dalam ruang.
+% 
+% Untuk demo berikutnya, kami menyiapkan parameter-parameter u dan v,
+% dan menghasilkan koordinat ruang dari parameter-parameter ini.
+>u=linspace(-1,1,10); v=linspace(0,2*pi,50)'; ...
+>X=(3+u*cos(v/2))*cos(v); Y=(3+u*cos(v/2))*sin(v); Z=u*sin(v/2); ...
+>plot3d(X,Y,Z,>anaglyph,<frame,>wire,scale=2.3):
+ %image% EMT Plot3D - 22305144024-050.png
+% Berikut adalah contoh yang lebih rumit, yang sangat megah dengan
+% kacamata merah/cyan.
+>u:=linspace(-pi,pi,160); v:=linspace(-pi,pi,400)';  ...
+>x:=(4*(1+.25*sin(3*v))+cos(u))*cos(2*v); ...
+>y:=(4*(1+.25*sin(3*v))+cos(u))*sin(2*v); ...
+> z=sin(u)+2*cos(3*v); ...
+>plot3d(x,y,z,frame=0,scale=1.5,hue=1,light=[1,0,-1],zoom=2.8,>anaglyph):
+ %image% EMT Plot3D - 22305144024-051.png
+% * Plot Statistik
+% 
+% Diagram batang juga dimungkinkan. Untuk ini, kita harus menyediakan:
+% 
+% - x: vektor baris dengan n+1 elemen
+%% - y: vektor kolom dengan n+1 elemen
+%% - z: matriks nxn dari nilai-nilai.
+% 
+% z bisa lebih besar, tetapi hanya nilai nxn yang akan digunakan.
+% 
+% Dalam contoh ini, kita pertama-tama menghitung nilai-nilai tersebut.
+% Kemudian kita menyesuaikan x dan y, sehingga vektor-vektor tersebut
+% berpusat pada nilai-nilai yang digunakan.
+>x=-1:0.1:1; y=x'; z=x^2+y^2; ...
+>xa=(x|1.1)-0.05; ya=(y_1.1)-0.05; ...
+>plot3d(xa,ya,z,bar=true):
+ %image% EMT Plot3D - 22305144024-052.png
+% Sangat mungkin untuk membagi plot permukaan menjadi dua atau lebih
+% bagian.
+>x=-1:0.1:1; y=x'; z=x+y; d=zeros(size(x)); ...
+>plot3d(x,y,z,disconnect=2:2:20):
+ %image% EMT Plot3D - 22305144024-053.png
+% Jika Anda memuat atau menghasilkan matriks data M dari sebuah file dan
+% perlu menggambarkannya dalam tiga dimensi, Anda dapat mengubah skala
+% matriks tersebut menjadi [-1,1] dengan menggunakan fungsi scale(M),
+% atau Anda juga dapat mengubah skala matriks tersebut dengan
+% menggunakan >zscale. Ini dapat digabungkan dengan faktor-faktor skala
+% individual yang diterapkan tambahan.
+>i=1:20; j=i'; ...
+>plot3d(i*j^2+100*normal(20,20),>zscale,scale=[1,1,1.5],angle=-40°,zoom=1.8):
+ %image% EMT Plot3D - 22305144024-054.png
+>Z=intrandom(5,100,6); v=zeros(5,6); ...
+>loop 1 to 5; v[#]=getmultiplicities(1:6,Z[#]); end; ...
+>columnsplot3d(v',scols=1:5,ccols=[1:5]):
+ %image% EMT Plot3D - 22305144024-055.png
+% * Permukaan Benda Putar
+>plot2d("(x^2+y^2-1)^3-x^2*y^3",r=1.3, ...
+>style="#",color=red,<outline, ...
+>level=[-2;0],n=100):
+ %image% EMT Plot3D - 22305144024-056.png
+>ekspresi &= (x^2+y^2-1)^3-x^2*y^3; $ekspresi
+ %image% EMT Plot3D - 22305144024-057.png
+% // latex: \left(y^2+x^2-1\right)^3-x^2\,y^3
+% Kami ingin memutar kurva hati sekitar sumbu y. Berikut adalah ekspresi
+% yang mendefinisikan hati:
+% 
+% latex: f(x,y)=(x^2+y^2-1)^3-x^2.y^3.
+% %image% EMT Plot3D - 22305144024-058.png
+% // latex: f(x,y)=(x^2+y^2-1)^3-x^2.y^3.
+% 
+% Selanjutnya, kami mengatur
+% 
+% latex: x=r.cos(a),\quad y=r.sin(a).
+% %image% EMT Plot3D - 22305144024-059.png
+% // latex: x=r.cos(a),\quad y=r.sin(a).
+>function fr(r,a) &= ekspresi with [x=r*cos(a),y=r*sin(a)] | trigreduce; $fr(r,a)
+ %image% EMT Plot3D - 22305144024-060.png
+% // latex: \left(r^2-1\right)^3+\frac{\left(\sin \left(5\,a\right)-\sin \left(  3\,a\right)-2\,\sin a\right)\,r^5}{16}
+% Ini memungkinkan untuk mendefinisikan fungsi numerik, yang
+% menyelesaikan untuk r, jika a diberikan. Dengan fungsi itu, kita dapat
+% menggambar hati yang terbalik sebagai permukaan parametrik.
+>function map f(a) := bisect("fr",0,2;a); ...
+>t=linspace(-pi/2,pi/2,100); r=f(t);  ...
+>s=linspace(pi,2pi,100)'; ...
+>plot3d(r*cos(t)*sin(s),r*cos(t)*cos(s),r*sin(t), ...
+>>hue,<frame,color=red,zoom=4,amb=0,max=0.7,grid=12,height=50°):
+ %image% EMT Plot3D - 22305144024-061.png
+% Berikut adalah plot 3D dari gambar di atas yang diputar sekitar sumbu
+% z. Kami mendefinisikan fungsi, yang menggambarkan objek tersebut.
+>function f(x,y,z) ...
+$r=x^2+y^2;
+$return (r+z^2-1)^3-r*z^3;
+$ endfunction
+>plot3d("f(x,y,z)", ...
+>xmin=0,xmax=1.2,ymin=-1.2,ymax=1.2,zmin=-1.2,zmax=1.4, ...
+>implicit=1,angle=-30°,zoom=2.5,n=[10,100,60],>anaglyph):
+ %image% EMT Plot3D - 22305144024-062.png
+% * Plot 3D Khusus
+% 
+% Fungsi plot3d bagus untuk dimiliki, tetapi tidak memenuhi semua
+% kebutuhan. Selain rutinitas yang lebih dasar, Anda dapat membuat plot
+% berbingkai dari objek apa pun yang Anda sukai.
+% 
+% Meskipun Euler bukan program 3D, ini dapat menggabungkan beberapa
+% objek dasar. Kami mencoba untuk memvisualisasikan sebuah paraboloid
+% dan tangennya.
+>function myplot ...
+$  y=-1:0.01:1; x=(-1:0.01:1)';
+$  plot3d(x,y,0.2*(x-0.1)/2,<scale,<frame,>hue, ..
+$    hues=0.5,>contour,color=orange);
+$  h=holding(1);
+$  plot3d(x,y,(x^2+y^2)/2,<scale,<frame,>contour,>hue);
+$  holding(h);
+$endfunction
+% Sekarang, framedplot() menyediakan bingkai-bingkai, dan mengatur
+% tampilan.
+>framedplot("myplot",[-1,1,-1,1,0,1],height=0,angle=-30°, ...
+>  center=[0,0,-0.7],zoom=3):
+ %image% EMT Plot3D - 22305144024-063.png
+% Dengan cara yang sama, Anda dapat menggambar bidang kontur secara
+% manual. Perhatikan bahwa plot3d() secara default mengatur jendela ke
+% fullwindow(), tetapi plotcontourplane() mengasumsikan hal tersebut.
+>x=-1:0.02:1.1; y=x'; z=x^2-y^4;
+>function myplot (x,y,z) ...
+$  zoom(2);
+$  wi=fullwindow();
+$  plotcontourplane(x,y,z,level="auto",<scale);
+$  plot3d(x,y,z,>hue,<scale,>add,color=white,level="thin");
+$  window(wi);
+$  reset();
+$endfunction
+>myplot(x,y,z):
+ %image% EMT Plot3D - 22305144024-064.png
+% * Animasi
+% 
+% Euler dapat menggunakan bingkai (frames) untuk menghitung animasi
+% sebelumnya.
+% 
+% Salah satu fungsi yang menggunakan teknik ini adalah fungsi rotate.
+% Fungsi ini dapat mengubah sudut pandangan dan menggambar ulang plot
+% 3D. Fungsi ini memanggil addpage() untuk setiap plot baru. Akhirnya,
+% itu menganimasikan plot-plot tersebut.
+% 
+% Silahkan pelajari sumber dari fungsi rotate untuk melihat lebih banyak
+% detailnya.
+>function testplot () := plot3d("x^2+y^3"); ...
+>rotate("testplot"); testplot():
+ %image% EMT Plot3D - 22305144024-065.png
+% * Menggambar Povray
+% 
+% Dengan bantuan berkas Euler povray.e, Euler dapat menghasilkan berkas
+% Povray. Hasilnya sangat bagus untuk dilihat.
+% 
+% Anda perlu menginstal Povray (32bit atau 64bit) dari
+% http://www.povray.org/, dan letakkan sub-direktori "bin" dari Povray ke dalam path lingkungan, atau atur variabel "defaultpovray" dengan path lengkap menuju "pvengine.exe".
+% 
+% Antarmuka Povray dari Euler menghasilkan berkas Povray di direktori
+% rumah pengguna, dan memanggil Povray untuk menguraikan berkas-berkas
+% ini. Nama berkas default adalah current.pov, dan direktori default
+% adalah eulerhome(), biasanya c:\Users\Username\Euler. Povray
+% menghasilkan berkas PNG, yang dapat dimuat oleh Euler ke dalam
+% notebook. Untuk membersihkan berkas-berkas ini, gunakan povclear().
+% 
+% Fungsi pov3d berada dalam semangat yang sama seperti plot3d. Ini dapat
+% menghasilkan grafik dari fungsi f(x, y), atau permukaan dengan
+% koordinat X, Y, Z dalam matriks, termasuk garis level opsional. Fungsi
+% ini secara otomatis memulai raytracer, dan memuat adegan ke dalam
+% notebook Euler.
+% 
+% Selain pov3d(), ada banyak fungsi lain yang menghasilkan objek Povray.
+% Fungsi-fungsi ini mengembalikan string-string yang berisi kode Povray
+% untuk objek-objek tersebut. Untuk menggunakan fungsi-fungsi ini, mulai
+% berkas Povray dengan povstart(). Kemudian gunakan writeln(...) untuk
+% menulis objek-objek ke dalam berkas adegan. Akhirnya, akhiri berkas
+% dengan povend(). Secara default, raytracer akan dijalankan, dan PNG
+% akan dimasukkan ke dalam notebook Euler.
+% 
+% Fungsi objek memiliki parameter yang disebut "look", yang memerlukan
+% string dengan kode Povray untuk tekstur dan penyelesaian objek
+% tersebut. Fungsi povlook() dapat digunakan untuk menghasilkan string
+% ini. Ini memiliki parameter untuk warna, transparansi, Phong Shading,
+% dll.
+% 
+% Perhatikan bahwa alam semesta Povray memiliki sistem koordinat yang
+% berbeda. Antarmuka ini menerjemahkan semua koordinat ke sistem Povray.
+% Jadi Anda dapat terus berpikir dalam sistem koordinat Euler dengan z
+% mengarah ke atas secara vertikal, dan sumbu x, y, z dalam orientasi
+% tangan kanan.
+% 
+% Anda perlu memuat berkas povray.
+>load povray;
+% Pastikan direktori bin Povray ada dalam path. Jika tidak, edit
+% variabel berikut agar mengandung path ke eksekutor Povray.
+>defaultpovray="C:\Program Files\POV-Ray\v3.7\bin\pvengine.exe"
+C:\Program Files\POV-Ray\v3.7\bin\pvengine.exe
+% Untuk kesan pertama, kita akan membuat grafik fungsi sederhana.
+% Perintah berikut akan menghasilkan file povray di direktori pengguna
+% Anda, dan menjalankan Povray untuk melacak sinar file ini.
+% 
+% Jika Anda menjalankan perintah berikut, GUI Povray seharusnya terbuka,
+% menjalankan file, dan secara otomatis menutupnya. Karena alasan
+% keamanan, Anda akan ditanya apakah Anda ingin mengizinkan file exe
+% untuk dijalankan. Anda dapat menekan "Batal" untuk menghentikan
+% pertanyaan lebih lanjut. Anda mungkin perlu menekan "OK" di jendela
+% Povray untuk mengakui dialog pemulaiannya.
+>plot3d("x^2+y^2",zoom=2):
+ %image% EMT Plot3D - 22305144024-066.png
+>pov3d("x^2+y^2",zoom=3);
+ %image% EMT Plot3D - 22305144024-067.png
+% Kita dapat membuat fungsi tersebut menjadi transparan dan menambahkan
+% selesai yang lain. Kita juga dapat menambahkan garis level ke plot
+% fungsi tersebut.
+>pov3d("x^2+y^3",axiscolor=red,angle=-45°,>anaglyph, ...
+>  look=povlook(cyan,0.2),level=-1:0.5:1,zoom=3.8);
+ %image% EMT Plot3D - 22305144024-068.png
+% Terkadang perlu untuk mencegah penskalaan fungsi, dan melakukan
+% penskalaan fungsi secara manual.
+% 
+% Kami menggambar himpunan titik-titik dalam bidang kompleks, di mana
+% hasil perkalian jarak ke 1 dan -1 sama dengan 1.
+>pov3d("((x-1)^2+y^2)*((x+1)^2+y^2)/40",r=2, ...
+>  angle=-120°,level=1/40,dlevel=0.005,light=[-1,1,1],height=10°,n=50, ...
+>  <fscale,zoom=3.8);
+ %image% EMT Plot3D - 22305144024-069.png
+% * Plotting dengan Koordinat
+% 
+% Daripada menggunakan fungsi, kita dapat membuat plot dengan koordinat.
+% Seperti dalam plot3d, kita memerlukan tiga matriks untuk
+% mendefinisikan objek tersebut.
+% 
+% Dalam contoh ini, kita memutar sebuah fungsi sekitar sumbu z.
+>
+>function f(x) := x^3-x+1; ...
+>x=-1:0.01:1; t=linspace(0,2pi,50)'; ...
+>Z=x; X=cos(t)*f(x); Y=sin(t)*f(x); ...
+>pov3d(X,Y,Z,angle=40°,look=povlook(red,0.1),height=50°,axis=0,zoom=4,light=[10,5,15]);
+ %image% EMT Plot3D - 22305144024-070.png
+% Dalam contoh berikut, kita membuat grafik gelombang yang teredam. Kita
+% menghasilkan gelombang tersebut dengan bahasa matriks Euler.
+% 
+% Kita juga menunjukkan bagaimana objek tambahan dapat ditambahkan ke
+% dalam adegan pov3d. Untuk pembuatan objek, lihat contoh-contoh
+% berikutnya. Perhatikan bahwa plot3d mengubah skala plot sehingga cocok
+% ke dalam kubus satuan.
+>r=linspace(0,1,80); phi=linspace(0,2pi,80)'; ...
+>x=r*cos(phi); y=r*sin(phi); z=exp(-5*r)*cos(8*pi*r)/3;  ...
+>pov3d(x,y,z,zoom=6,axis=0,height=30°,add=povsphere([0.5,0,0.25],0.15,povlook(red)), ...
+>  w=500,h=300);
+ %image% EMT Plot3D - 22305144024-071.png
+% Dengan metode shading canggih Povray, hanya sedikit titik dapat
+% menghasilkan permukaan yang sangat halus. Hanya di batas-batas dan
+% dalam bayangan trik ini mungkin menjadi jelas.
+% 
+% Untuk ini, kita perlu menambahkan vektor normal pada setiap titik
+% matriks.
+>Z &= x^2*y^3
+
+                                 2  3
+                                x  y
+
+% Persamaan permukaannya adalah [x, y, Z]. Kami menghitung dua turunan
+% terhadap x dan y dari ini dan mengambil hasil perkalian silang sebagai
+% vektor normal.
+>dx &= diff([x,y,Z],x); dy &= diff([x,y,Z],y);
+% Kita mendefinisikan normal sebagai hasil perkalian silang dari
+% turunan-turunan ini, dan mendefinisikan fungsi-fungsi koordinat.
+>N &= crossproduct(dx,dy); NX &= N[1]; NY &= N[2]; NZ &= N[3]; N,
+
+                               3       2  2
+                       [- 2 x y , - 3 x  y , 1]
+
+% Kami hanya menggunakan 25 poin.
+>x=-1:0.5:1; y=x';
+>pov3d(x,y,Z(x,y),angle=10°, ...
+>  xv=NX(x,y),yv=NY(x,y),zv=NZ(x,y),<shadow);
+ %image% EMT Plot3D - 22305144024-072.png
+% Berikut adalah simpul Trefoil yang dibuat oleh A. Busser dalam Povray.
+% Ada versi yang ditingkatkan dari ini dalam contoh-contoh.
+% 
+% Lihat: Contoh\Simpul Trefoil | Simpul Trefoil
+% 
+% Untuk tampilan yang bagus dengan tidak terlalu banyak titik, kami
+% tambahkan vektor normal di sini. Kami menggunakan Maxima untuk
+% menghitung vektor normal untuk kita. Pertama, tiga fungsi untuk
+% koordinat sebagai ekspresi simbolis.
+>X &= ((4+sin(3*y))+cos(x))*cos(2*y); ...
+>Y &= ((4+sin(3*y))+cos(x))*sin(2*y); ...
+>Z &= sin(x)+2*cos(3*y);
+% Kemudian dua vektor turunan terhadap x dan y.
+>dx &= diff([X,Y,Z],x); dy &= diff([X,Y,Z],y);
+% Sekarang yang normal, yang merupakan hasil perkalian silang dari dua
+% turunan tersebut.
+>dn &= crossproduct(dx,dy);
+% Sekarang kita mengevaluasi semua ini secara numerik.
+>x:=linspace(-%pi,%pi,40); y:=linspace(-%pi,%pi,100)';
+% Vektor normal adalah hasil dari evaluasi dari ekspresi simbolik dn[i]
+% untuk i=1,2,3. Sintaks untuk ini adalah &"ekspresi"(parameter). Ini
+% adalah alternatif dari metode dalam contoh sebelumnya, di mana kita
+% mendefinisikan ekspresi simbolik NX, NY, NZ terlebih dahulu.
+>pov3d(X(x,y),Y(x,y),Z(x,y),>anaglyph,axis=0,zoom=5,w=450,h=350, ...
+>  <shadow,look=povlook(blue), ...
+>  xv=&"dn[1]"(x,y), yv=&"dn[2]"(x,y), zv=&"dn[3]"(x,y));
+ %image% EMT Plot3D - 22305144024-073.png
+% Kita juga bisa membuat grid dalam bentuk 3D.
+>povstart(zoom=4); ...
+>x=-1:0.5:1; r=1-(x+1)^2/6; ...
+>t=(0°:30°:360°)'; y=r*cos(t); z=r*sin(t); ...
+>writeln(povgrid(x,y,z,d=0.02,dballs=0.05)); ...
+>povend();
+ %image% EMT Plot3D - 22305144024-074.png
+% Dengan povgrid(), kurva menjadi mungkin.
+>povstart(center=[0,0,1],zoom=3.6); ...
+>t=linspace(0,2,1000); r=exp(-t); ...
+>x=cos(2*pi*10*t)*r; y=sin(2*pi*10*t)*r; z=t; ...
+>writeln(povgrid(x,y,z,povlook(red))); ...
+>writeAxis(0,2,axis=3); ...
+>povend();
+ %image% EMT Plot3D - 22305144024-075.png
+% * Objek Povray
+% 
+% Di atas, kami menggunakan pov3d untuk memplot permukaan. Antarmuka
+% povray dalam Euler juga dapat menghasilkan objek Povray. Objek-objek
+% ini disimpan sebagai string dalam Euler, dan perlu ditulis ke file
+% Povray.
+% 
+% Kami memulai output dengan povstart().
+>povstart(zoom=4);
+% Pertama, kita tentukan tiga silinder tersebut, dan simpan mereka dalam
+% bentuk string di Euler.
+% 
+% Fungsi povx() dan sebagainya hanya mengembalikan vektor [1,0,0], yang
+% dapat digunakan sebagai gantinya.
+>c1=povcylinder(-povx,povx,1,povlook(red)); ...
+>c2=povcylinder(-povy,povy,1,povlook(yellow)); ...
+>c3=povcylinder(-povz,povz,1,povlook(blue)); ...
+% String tersebut berisi kode Povray, yang pada saat itu tidak perlu
+% kita pahami.
+>c2
+cylinder { <0,0,-1>, <0,0,1>, 1
+ texture { pigment { color rgb <0.941176,0.941176,0.392157> }  } 
+ finish { ambient 0.2 } 
+ }
+% Seperti yang Anda lihat, kami menambahkan tekstur pada objek dalam
+% tiga warna berbeda.
+% 
+% Hal itu dilakukan dengan menggunakan povlook(), yang mengembalikan
+% sebuah string dengan kode Povray yang relevan. Kami dapat menggunakan
+% warna Euler default, atau menentukan warna sendiri. Kami juga dapat
+% menambahkan transparansi, atau mengubah cahaya ambien.
+>povlook(rgb(0.1,0.2,0.3),0.1,0.5)
+ texture { pigment { color rgbf <0.101961,0.2,0.301961,0.1> }  } 
+ finish { ambient 0.5 } 
+
+% Sekarang kita mendefinisikan sebuah objek perpotongan, dan menulis
+% hasilnya ke dalam file.
+>writeln(povintersection([c1,c2,c3]));
+% Perpotongan tiga silinder sulit untuk dibayangkan, jika Anda belum
+% pernah melihatnya sebelumnya.
+>povend;
+ %image% EMT Plot3D - 22305144024-076.png
+% Berikut adalah terjemahan dalam bahasa Indonesia sehari-hari:
+% 
+% Fungsi-fungsi berikut menghasilkan fraktal secara rekursif.
+% 
+% Fungsi pertama menunjukkan bagaimana Euler mengatasi objek Povray
+% sederhana. Fungsi povbox() mengembalikan sebuah string yang berisi
+% koordinat kotak, tekstur, dan penyelesaian.
+>function onebox(x,y,z,d) := povbox([x,y,z],[x+d,y+d,z+d],povlook());
+>function fractal (x,y,z,h,n) ...
+$ if n==1 then writeln(onebox(x,y,z,h));
+$ else
+$   h=h/3;
+$   fractal(x,y,z,h,n-1);
+$   fractal(x+2*h,y,z,h,n-1);
+$   fractal(x,y+2*h,z,h,n-1);
+$   fractal(x,y,z+2*h,h,n-1);
+$   fractal(x+2*h,y+2*h,z,h,n-1);
+$   fractal(x+2*h,y,z+2*h,h,n-1);
+$   fractal(x,y+2*h,z+2*h,h,n-1);
+$   fractal(x+2*h,y+2*h,z+2*h,h,n-1);
+$   fractal(x+h,y+h,z+h,h,n-1);
+$ endif;
+$endfunction
+>povstart(fade=10,<shadow);
+>fractal(-1,-1,-1,2,4);
+>povend();
+ %image% EMT Plot3D - 22305144024-077.png
+% Perbedaan memungkinkan pemisahan satu objek dari objek lainnya.
+% Seperti persimpangan, ada bagian dari objek CSG di Povray.
+>povstart(light=[5,-5,5],fade=10);
+% Untuk demonstrasi ini, kami mendefinisikan objek di Povray, alih-alih
+% menggunakan string di Euler. Definisi segera ditulis ke file.
+% 
+% Koordinat kotak -1 berarti [-1,-1,-1].
+>povdefine("mycube",povbox(-1,1));
+% Kita bisa menggunakan objek ini di povobject(), yang mengembalikan
+% string seperti biasa.
+>c1=povobject("mycube",povlook(red));
+% Kami membuat kubus kedua, dan memutar serta menskalakannya sedikit.
+>c2=povobject("mycube",povlook(yellow),translate=[1,1,1], ...
+>  rotate=xrotate(10°)+yrotate(10°), scale=1.2);
+% Lalu kita ambil selisih kedua benda tersebut.
+>writeln(povdifference(c1,c2));
+% Sekarang tambahkan tiga sumbu.
+>writeAxis(-1.2,1.2,axis=1); ...
+>writeAxis(-1.2,1.2,axis=2); ...
+>writeAxis(-1.2,1.2,axis=4); ...
+>povend();
+ %image% EMT Plot3D - 22305144024-078.png
+% * Fungsi Implisit
+% 
+% Povray dapat memplot himpunan di mana f(x,y,z)=0, seperti parameter
+% implisit di plot3d. Namun hasilnya terlihat jauh lebih baik.
+% 
+% Sintaks untuk fungsinya sedikit berbeda. Anda tidak dapat menggunakan
+% keluaran ekspresi Maxima atau Euler.
+% 
+% latex: ((x^2+y^2-c^2)^2+(z^2-1)^2)*((y^2+z^2-c^2)^2+(x^ 2-1)^2)*((z^2+x^2-c^2)^2+(y^2-1)^2)=d
+% %image% EMT Plot3D - 22305144024-079.png
+% // latex: ((x^2+y^2-c^2)^2+(z^2-1)^2)*((y^2+z^2-c^2)^2+(x^ 2-1)^2)*((z^2+x^2-c^2)^2+(y^2-1)^2)=d
+>
+>povstart(angle=70°,height=50°,zoom=4);
+>c=0.1; d=0.1; ...
+>writeln(povsurface("(pow(pow(x,2)+pow(y,2)-pow(c,2),2)+pow(pow(z,2)-1,2))*(pow(pow(y,2)+pow(z,2)-pow(c,2),2)+pow(pow(x,2)-1,2))*(pow(pow(z,2)+pow(x,2)-pow(c,2),2)+pow(pow(y,2)-1,2))-d",povlook(red))); ...
+>povend();
+Error : Povray error!
+
+Error generated by error() command
+
+povray:
+    error("Povray error!");
+Try "trace errors" to inspect local variables after errors.
+povend:
+    povray(file,w,h,aspect,exit); 
+>povstart(angle=25°,height=10°); 
+>writeln(povsurface("pow(x,2)+pow(y,2)*pow(z,2)-1",povlook(blue),povbox(-2,2,"")));
+>povend();
+ %image% EMT Plot3D - 22305144024-080.png
+>
+>povstart(angle=70°,height=50°,zoom=4);
+% Buat permukaan implisit. Perhatikan sintaksis yang berbeda dalam
+% ekspresi.
+>writeln(povsurface("pow(x,2)*y-pow(y,3)-pow(z,2)",povlook(green))); ...
+>writeAxes(); ...
+>povend();
+ %image% EMT Plot3D - 22305144024-081.png
+% * Objek Jaring
+% 
+% Dalam contoh ini, kami menunjukkan cara membuat objek mesh, dan
+% menggambarnya dengan informasi tambahan.
+% 
+% Kita ingin memaksimalkan xy pada kondisi x+y=1 dan mendemonstrasikan
+% sentuhan tangensial garis datar.
+>povstart(angle=-10°,center=[0.5,0.5,0.5],zoom=7);
+% Kita tidak dapat menyimpan objek dalam string seperti sebelumnya,
+% karena terlalu besar. Jadi kita mendefinisikan objek dalam file Povray
+% menggunakan #declare. Fungsi povtriangle() melakukan ini secara
+% otomatis. Ia dapat menerima vektor normal seperti pov3d().
+% 
+% Berikut ini definisi objek mesh, dan segera menuliskannya ke dalam
+% file.
+>x=0:0.02:1; y=x'; z=x*y; vx=-y; vy=-x; vz=1;
+>mesh=povtriangles(x,y,z,"",vx,vy,vz);
+% Sekarang kita mendefinisikan dua cakram, yang akan berpotongan dengan
+% permukaan.
+>cl=povdisc([0.5,0.5,0],[1,1,0],2); ...
+>ll=povdisc([0,0,1/4],[0,0,1],2);
+% Tulis permukaannya dikurangi kedua cakram.
+>writeln(povdifference(mesh,povunion([cl,ll]),povlook(green)));
+% Tuliskan kedua perpotongan tersebut.
+>writeln(povintersection([mesh,cl],povlook(red))); ...
+>writeln(povintersection([mesh,ll],povlook(gray)));
+% Tulis poin maksimal.
+>writeln(povpoint([1/2,1/2,1/4],povlook(gray),size=2*defaultpointsize));
+% Tambahkan sumbu dan selesai.
+>writeAxes(0,1,0,1,0,1,d=0.015); ...
+>povend();
+ %image% EMT Plot3D - 22305144024-082.png
+% * Anaglyph di Povray
+% 
+% Untuk menghasilkan anaglyph untuk kacamata merah/cyan, Povray harus
+% dijalankan dua kali dari posisi kamera berbeda. Ini menghasilkan dua
+% file Povray dan dua file PNG, yang dimuat dengan fungsi
+% loadanaglyph().
+% 
+% Tentu saja, Anda memerlukan kacamata berwarna merah/cyan untuk melihat
+% contoh berikut dengan benar.
+% 
+% Fungsi pov3d() memiliki saklar sederhana untuk menghasilkan anaglyph.
+>pov3d("-exp(-x^2-y^2)/2",r=2,height=45°,>anaglyph, ...
+>  center=[0,0,0.5],zoom=3.5);
+ %image% EMT Plot3D - 22305144024-083.png
+% Jika Anda membuat adegan dengan objek, Anda perlu memasukkan pembuatan
+% adegan ke dalam fungsi, dan menjalankannya dua kali dengan nilai
+% berbeda untuk parameter anaglyph.
+>function myscene ...
+$  s=povsphere(povc,1);
+$  cl=povcylinder(-povz,povz,0.5);
+$  clx=povobject(cl,rotate=xrotate(90°));
+$  cly=povobject(cl,rotate=yrotate(90°));
+$  c=povbox([-1,-1,0],1);
+$  un=povunion([cl,clx,cly,c]);
+$  obj=povdifference(s,un,povlook(red));
+$  writeln(obj);
+$  writeAxes();
+$endfunction
+% Fungsi povanaglyph() melakukan semua ini. Parameternya seperti
+% gabungan povstart() dan povend().
+>povanaglyph("myscene",zoom=4.5);
+ %image% EMT Plot3D - 22305144024-084.png
+% * Mendefinisikan Objek sendiri
+% 
+% Antarmuka povray Euler berisi banyak objek. Namun Anda tidak dibatasi
+% pada hal ini. Anda dapat membuat objek sendiri, yang menggabungkan
+% objek lain, atau merupakan objek yang benar-benar baru.
+% 
+% Kami mendemonstrasikan torus. Perintah Povray untuk ini adalah
+% "torus". Jadi kami mengembalikan string dengan perintah ini dan
+% parameternya. Perhatikan bahwa torus selalu berpusat pada titik asal.
+>function povdonat (r1,r2,look="") ...
+$  return "torus {"+r1+","+r2+look+"}";
+$endfunction
+% Ini torus pertama kami.
+>t1=povdonat(0.8,0.2)
+torus {0.8,0.2}
+% Mari kita gunakan objek ini untuk membuat torus kedua, diterjemahkan
+% dan diputar.
+>t2=povobject(t1,rotate=xrotate(90°),translate=[0.8,0,0])
+object { torus {0.8,0.2}
+ rotate 90 *x 
+ translate <0.8,0,0>
+ }
+% Sekarang kita tempatkan objek-objek tersebut ke dalam sebuah adegan.
+% Untuk tampilannya kami menggunakan Phong Shading.
+>povstart(center=[0.4,0,0],angle=0°,zoom=3.8,aspect=1.5); ...
+>writeln(povobject(t1,povlook(green,phong=1))); ...
+>writeln(povobject(t2,povlook(green,phong=1))); ...
+% >povend();
+% 
+% memanggil program Povray. Namun, jika terjadi kesalahan, kesalahan
+% tersebut tidak ditampilkan. Oleh karena itu Anda harus menggunakan
+% 
+%  >povend(<keluar);
+% 
+% jika ada yang tidak berhasil. Ini akan membiarkan jendela Povray
+% terbuka.
+>povend(h=320,w=480);
+ %image% EMT Plot3D - 22305144024-085.png
+% Berikut adalah contoh yang lebih rumit. Kami memecahkannya
+% 
+% latex: Ax \le b, \quad x \ge 0, \quad c.x \to \text{Maks.}
+% %image% EMT Plot3D - 22305144024-086.png
+% // latex: Ax \le b, \quad x \ge 0, \quad c.x \to \text{Maks.}
+% 
+% dan menunjukkan titik-titik yang layak dan optimal dalam plot 3D.
+>A=[10,8,4;5,6,8;6,3,2;9,5,6];
+>b=[10,10,10,10]';
+>c=[1,1,1];
+% Pertama, mari kita periksa, apakah contoh ini punya solusinya.
+>x=simplex(A,b,c,>max,>check)'
+[0,  1,  0.5]
+% Ya, sudah.
+% 
+% Selanjutnya kita mendefinisikan dua objek. Yang pertama adalah pesawat
+% 
+% latex: a \cdot x \le b
+% %image% EMT Plot3D - 22305144024-087.png
+% // latex: a \cdot x \le b
+>function oneplane (a,b,look="") ...
+$  return povplane(a,b,look)
+$endfunction
+% Kemudian kita mendefinisikan perpotongan semua setengah ruang dan
+% sebuah kubus.
+>function adm (A, b, r, look="") ...
+$  ol=[];
+$  loop 1 to rows(A); ol=ol|oneplane(A[#],b[#]); end;
+$  ol=ol|povbox([0,0,0],[r,r,r]);
+$  return povintersection(ol,look);
+$endfunction
+% Sekarang kita dapat merencanakan adegannya.
+>povstart(angle=120°,center=[0.5,0.5,0.5],zoom=3.5); ...
+>writeln(adm(A,b,2,povlook(green,0.4))); ...
+>writeAxes(0,1.3,0,1.6,0,1.5); ...
+% Berikut ini adalah lingkaran di sekitar optimal.
+>writeln(povintersection([povsphere(x,0.5),povplane(c,c.x')], ...
+>  povlook(red,0.9)));
+% Dan kesalahan ke arah optimal.
+>writeln(povarrow(x,c*0.5,povlook(red)));
+% Kami menambahkan teks ke layar. Teks hanyalah objek 3D. Kita perlu
+% menempatkan dan memutarnya sesuai dengan pandangan kita.
+>writeln(povtext("Linear Problem",[0,0.2,1.3],size=0.05,rotate=5°)); ...
+>povend();
+ %image% EMT Plot3D - 22305144024-088.png
+% * Contoh Lainnya
+% 
+% Anda dapat menemukan beberapa contoh Povray di Euler di file berikut.
+% 
+% See: Examples/Dandelin Spheres
+%% See: Examples/Donat Math
+%% See: Examples/Trefoil Knot
+%% See: Examples/Optimization by Affine Scaling
+% 
+% 
+% * Contoh Soal
+% 
+% ** Soal 1
+%% Gambarlah grafik dari fungsi berikut
+%% latex: f(x,y)=4x^2+2y^2
+% %image% EMT Plot3D - 22305144024-089.png
+% // latex: f(x,y)=4x^2+2y^2
+% 
+>plot3d("4*x^2+2*y^2",n=20,grid=2):
+ %image% EMT Plot3D - 22305144024-090.png
+% Gambar di atas menampilkan grafik fungsi dengan n=20 dan grid=2.
+%% - n : jumlah interval kisi-kisi,jumlah n default (40).
+%% - grid : jumlah garis kisi di setiap arah, jumlah grid default (10).
+% 
+% ** Soal 2
+%% Gambarlah grafik dari fungsi berikut.
+%% latex: f(x,y)=\sqrt{64-(x^2+y^2)}
+% %image% EMT Plot3D - 22305144024-091.png
+% // latex: f(x,y)=\sqrt{64-(x^2+y^2)}
+>plot3d("(64-x^2-y^2)^(1/2)",>user, ...
+>title= "Turn with the vector keys (press return to finish)"):
+ %image% EMT Plot3D - 22305144024-092.png
+% ** Soal 3
+%% - Gambarlah grafik dari fungsi tersebut.
+%% latex: f(x,y)=10-x-4y
+% %image% EMT Plot3D - 22305144024-093.png
+% // latex: f(x,y)=10-x-4y
+>function q(x,y):=10-x-4*y;
+>plot3d("q(x,y)",grid=5):
+ %image% EMT Plot3D - 22305144024-094.png
+% - Gambarlah grafik dari fungsi tersebut.
+%% latex: f(x,y)=10-x
+% %image% EMT Plot3D - 22305144024-095.png
+% // latex: f(x,y)=10-x
+>function m(x,y):=10-x;
+>plot3d("m"):
+ %image% EMT Plot3D - 22305144024-096.png
+>plot3d("q","m","y",r=2,zoom=3,frame=3):
+ %image% EMT Plot3D - 22305144024-097.png
+% ** Soal 4
+%% Gambarlah grafik dari fungsi ini.
+%% latex: f(x,y)=\frac{\sin{12x}\cos{12y}}{x 2y}
+% %image% EMT Plot3D - 22305144024-098.png
+% // latex: f(x,y)=\frac{\sin{12x}\cos{12y}}{x 2y}
+>function m(x,y):=(sin(12x)*cos(4y))/x*2y;
+>plot3d("m",r=10,angle=90°,fscale=-1,>user,>polar,color=blue,>hue):
+ %image% EMT Plot3D - 22305144024-099.png
+% ** Soal 5
+%% Visualiskan fungsi implisit 3 dimensi berikut.
+%% latex: M = \{ (x,y,z) : 4x^2+2y^3+zy=1 \}
+% %image% EMT Plot3D - 22305144024-100.png
+% // latex: M = \{ (x,y,z) : 4x^2+2y^3+zy=1 \}
+>plot3d("4*x^2+2*y^3+z*y-1",r=5,implicit=3):
+ %image% EMT Plot3D - 22305144024-101.png
+% ** Soal 6
+%% Visualisasikan fungsi implisit dengan Povray
+%% latex: x^2+y^2z^2-2 = 0
+% %image% EMT Plot3D - 22305144024-102.png
+% // latex: x^2+y^2z^2-2 = 0
+>load povray;
+>defaultpovray="C:\Program Files\POV-Ray\v3.7\bin\pvengine.exe"
+C:\Program Files\POV-Ray\v3.7\bin\pvengine.exe
+>povstart(angle=25°,height=10°);
+>writeln(povsurface("pow(x,2)+pow(y,2)*pow(z,2)-2",povlook(blue),povbox(-2,2,"")));
+>povend();
+ %image% EMT Plot3D - 22305144024-103.png
+>
